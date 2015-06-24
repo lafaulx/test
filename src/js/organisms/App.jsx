@@ -15,12 +15,18 @@ const App = React.createClass({
     structure: React.PropTypes.array.isRequired
   },
 
+  getInitialState() {
+    return {
+      boxHover: false
+    }
+  },
+
   render() {
-    let rows = this.renderRows(this.setBoxModifiers(this.formBoxGroups(this.props.structure)));
+    let rows = this.renderRows(this.setBoxModifiers(this.formBoxGroups(this.props.structure.slice(0))));
 
     return (
-      <div className='App'>
-        <div className='Container2'>
+      <div className={`App ${this.state.boxHover ? 'App--boxHover' : ''}`}>
+        <div className={`Container2 ${this.state.boxHover ? 'Container2--boxHover' : ''}`}>
           {rows}
         </div>
       </div>
@@ -53,7 +59,11 @@ const App = React.createClass({
 
   renderRow(boxes, type, key) {
     return (
-      <Row type={type} boxes={boxes} key={key}/>
+      <Row type={type}
+            boxes={boxes}
+            key={key}
+            onBoxMouseOver={this.handleBoxMouseOver}
+            onBoxMouseOut={this.handleBoxMouseOut}/>
     );
   },
 
@@ -99,6 +109,18 @@ const App = React.createClass({
     }
 
     return flattenBoxes;
+  },
+
+  handleBoxMouseOver() {
+    this.setState({
+      boxHover: true
+    });
+  },
+
+  handleBoxMouseOut() {
+    this.setState({
+      boxHover: false
+    });
   }
 });
 

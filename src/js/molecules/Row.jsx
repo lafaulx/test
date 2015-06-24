@@ -5,7 +5,9 @@ import Box from './Box';
 const Row = React.createClass({
   propTypes: {
     type: React.PropTypes.number.isRequired,
-    boxes: React.PropTypes.array.isRequired
+    boxes: React.PropTypes.array.isRequired,
+    onBoxMouseOver: React.PropTypes.func.isRequired,
+    onBoxMouseOut: React.PropTypes.func.isRequired
   },
 
   render() {
@@ -28,7 +30,11 @@ const Row = React.createClass({
 
   renderBox(rowIndex, neighbours) {
     return (
-      <Box localIndex={rowIndex} neighbours={neighbours} key={neighbours[rowIndex].name}/>
+      <Box localIndex={rowIndex}
+            neighbours={neighbours}
+            key={neighbours[rowIndex].name}
+            onMouseOver={this.props.onBoxMouseOver}
+            onMouseOut={this.props.onBoxMouseOut}/>
     );
   }
 });

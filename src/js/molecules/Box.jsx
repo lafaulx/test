@@ -3,7 +3,9 @@ import React from 'react';
 const Box = React.createClass({
   propTypes: {
     localIndex: React.PropTypes.number.isRequired,
-    neighbours: React.PropTypes.array.isRequired
+    neighbours: React.PropTypes.array.isRequired,
+    onMouseOver: React.PropTypes.func.isRequired,
+    onMouseOut: React.PropTypes.func.isRequired
   },
 
   render() {
@@ -20,7 +22,9 @@ const Box = React.createClass({
     let content = this.getContent();
 
     return (
-      <div className={`Box ${this.getClassName(modifiers)}`}>
+      <div className={`Box ${this.getClassName(modifiers)}`}
+            onMouseOver={this.props.onMouseOver}
+            onMouseOut={this.props.onMouseOut}>
         <div className='Box-header'>
           <strong className='Box-name'>{name}</strong>
           <a href='#' className='Box-closeButton'></a>
