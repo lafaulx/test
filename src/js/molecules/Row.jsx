@@ -7,7 +7,9 @@ const Row = React.createClass({
     type: React.PropTypes.number.isRequired,
     boxes: React.PropTypes.array.isRequired,
     onBoxMouseOver: React.PropTypes.func.isRequired,
-    onBoxMouseOut: React.PropTypes.func.isRequired
+    onBoxMouseOut: React.PropTypes.func.isRequired,
+    onBoxDelete: React.PropTypes.func.isRequired,
+    onBoxClick: React.PropTypes.func.isRequired
   },
 
   render() {
@@ -32,9 +34,12 @@ const Row = React.createClass({
     return (
       <Box localIndex={rowIndex}
             neighbours={neighbours}
+            model={neighbours[rowIndex]}
             key={neighbours[rowIndex].name}
             onMouseOver={this.props.onBoxMouseOver}
-            onMouseOut={this.props.onBoxMouseOut}/>
+            onMouseOut={this.props.onBoxMouseOut}
+            onDelete={this.props.onBoxDelete}
+            onClick={this.props.onBoxClick}/>
     );
   }
 });

@@ -4,30 +4,35 @@ const Box = React.createClass({
   propTypes: {
     localIndex: React.PropTypes.number.isRequired,
     neighbours: React.PropTypes.array.isRequired,
+    model: React.PropTypes.object.isRequired,
     onMouseOver: React.PropTypes.func.isRequired,
-    onMouseOut: React.PropTypes.func.isRequired
+    onMouseOut: React.PropTypes.func.isRequired,
+    onDelete: React.PropTypes.func.isRequired,
+    onClick: React.PropTypes.func.isRequired
   },
 
   render() {
     let {
       'localIndex': localIndex,
-      'neighbours': neighbours
+      'neighbours': neighbours,
+      'model': model
     } = this.props;
 
     let {
       'name': name,
       'modifiers': modifiers
-    } = neighbours[localIndex];
+    } = model;
 
     let content = this.getContent();
 
     return (
       <div className={`Box ${this.getClassName(modifiers)}`}
             onMouseOver={this.props.onMouseOver}
-            onMouseOut={this.props.onMouseOut}>
+            onMouseOut={this.props.onMouseOut}
+            onClick={this.handleClick}>
         <div className='Box-header'>
           <strong className='Box-name'>{name}</strong>
-          <a href='#' className='Box-closeButton'></a>
+          <a href='#' className='Box-closeButton' onClick={this.handleDelete}></a>
         </div>
         <div className='Box-content'>
           <span>{content.left}</span>
@@ -65,6 +70,19 @@ const Box = React.createClass({
     }
 
     return content;
+  },
+
+  handleClick(event) {
+    console.log(this.props);
+    this.props.onClick(event, this.props.model.name);
+  },
+
+  handleDelete(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log(this.props);
+    this.props.onDelete(event, this.props.model.name);
   }
 });
 

@@ -18,12 +18,13 @@ const App = React.createClass({
 
   getInitialState() {
     return {
-      boxHover: false
+      boxHover: false,
+      structure: this.props.structure || []
     }
   },
 
   render() {
-    let rows = this.renderRows(this.setBoxModifiers(this.formBoxGroups(this.props.structure.slice(0))));
+    let rows = this.renderRows(this.setBoxModifiers(this.formBoxGroups(this.state.structure.slice(0))));
 
     return (
       <div className={`App ${this.state.boxHover ? 'App--boxHover' : ''}`}>
@@ -64,7 +65,9 @@ const App = React.createClass({
             boxes={boxes}
             key={key}
             onBoxMouseOver={this.handleBoxMouseOver}
-            onBoxMouseOut={this.handleBoxMouseOut}/>
+            onBoxMouseOut={this.handleBoxMouseOut}
+            onBoxDelete={this.handleBoxDelete}
+            onBoxClick={this.handleBoxClick}/>
     );
   },
 
@@ -121,6 +124,34 @@ const App = React.createClass({
   handleBoxMouseOut() {
     this.setState({
       boxHover: false
+    });
+  },
+
+  handleBoxDelete(event, id) {
+    let self = this;
+    let structureCopy = this.state.structure.slice(0);
+
+    for (var i = 0; i < structureCopy.length; i++) {
+      if (structureCopy[i].name === id) {
+        structureCopy.splice(i, 1);
+        AppAPI.updateStructure(structureCopy).then(function() {
+          self.setState({
+            structure: structureCopy
+          });
+        });
+
+        break;
+      }
+    }
+  },
+
+  handleBoxClick(event, id) {
+    let self = this;
+
+    AppAPI.createBox(id).then(function(structure) {
+      self.setState({
+        structure: structure
+      });
     });
   }
 });
