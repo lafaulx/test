@@ -1,5 +1,9 @@
 extends layout
 
 block content
-  = html
+  div#app
+    = html
+
+  script
+    | window.state = !{state};
   script(src='/assets/js/index.js')

@@ -7,12 +7,15 @@
 var app = require('../app');
 var debug = require('debug')('klrn-test:server');
 var http = require('http');
+var config = require('../local_config');
+
+process.env.API_ORIGIN = config.API_ORIGIN;
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(config.NODEJS_PORT);
 app.set('port', port);
 
 /**

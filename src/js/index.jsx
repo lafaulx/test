@@ -5,4 +5,10 @@ require('../less/index');
 import React from 'react';
 import App from './organisms/App';
 
-React.render(<App />, document.body);
+var state = {};
+
+if (typeof window !== 'undefined' && window.state) {
+  state = window.state;
+}
+
+React.render(<App structure={state}/>, document.getElementById('app'));

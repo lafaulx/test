@@ -4,24 +4,6 @@ import React from 'react';
 
 import Row from '../molecules/Row'
 
-let structure = [{
-    name: 0
-  }, {
-    name: 1
-  }, {
-    name: 2
-  }, {
-    name: 3
-  }, {
-    name: 4
-  }, {
-    name: 5
-  }, {
-    name: 6
-  }, {
-    name: 7
-  }];
-
 let rowTypesToBoxes = {
   1: 3,
   2: 2,
@@ -29,8 +11,12 @@ let rowTypesToBoxes = {
 };
 
 const App = React.createClass({
+  propTypes: {
+    structure: React.PropTypes.array.isRequired
+  },
+
   render() {
-    let rows = this.renderRows(this.setBoxModifiers(this.formBoxGroups(structure)));
+    let rows = this.renderRows(this.setBoxModifiers(this.formBoxGroups(this.props.structure)));
 
     return (
       <div className='App'>
@@ -42,7 +28,6 @@ const App = React.createClass({
   },
 
   renderRows(structure) {
-    console.log('rowsStruct', structure);
     let acc = this.formRow(structure, 1, 0, []);
 
     return acc;
@@ -112,8 +97,6 @@ const App = React.createClass({
         return box;
       }));
     }
-
-    console.log('flattenBoxes', flattenBoxes, boxGroups);
 
     return flattenBoxes;
   }
