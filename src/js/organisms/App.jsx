@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import Row from '../molecules/Row'
+
 let structure = [0, 1, 2, 3, 4, 5, 6, 7];
 let boxes = [{
     name: 0
@@ -42,16 +44,16 @@ const App = React.createClass({
   },
 
   renderRows(structure) {
-    let acc = this.formRow(structure, 1, []);
+    let acc = this.formRow(structure, 1, 0, []);
 
     return acc;
   },
 
-  formRow(boxes, type, acc) {
+  formRow(boxes, type, key, acc) {
     if (boxes.length > 0) {
       let nextType;
 
-      acc.push(this.renderRow(boxes.slice(0, rowTypesToBoxes[type]), type));
+      acc.push(this.renderRow(boxes.slice(0, rowTypesToBoxes[type]), type, key));
 
       if (type === 3) {
         nextType = 1;
@@ -59,35 +61,15 @@ const App = React.createClass({
         nextType = type + 1;
       }
 
-      return this.formRow(boxes.slice(rowTypesToBoxes[type]), nextType, acc);
+      return this.formRow(boxes.slice(rowTypesToBoxes[type]), nextType, ++key, acc);
     } else {
       return acc;
     }
   },
 
-  renderRow(boxes, type) {
-    let renderedBoxes = [];
-
-    for (let i = 0; i < boxes.length; i++) {
-      renderedBoxes.push(this.renderBox(i, boxes));
-    }
-
+  renderRow(boxes, type, key) {
     return (
-      <div className={`Row Row-${type}`}>
-        {renderedBoxes}
-      </div>
-    );
-  },
-
-  renderBox(rowIndex, neighbours) {
-    let id = neighbours[rowIndex];
-
-    return (
-      <div className='Box'>
-        <div>
-          {id}
-        </div>
-      </div>
+      <Row type={type} boxes={boxes} key={key}/>
     );
   }
 });
