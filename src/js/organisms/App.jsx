@@ -2,7 +2,8 @@
 
 import React from 'react';
 
-import Row from '../molecules/Row'
+import Row from '../molecules/Row';
+import AppAPI from '../api/AppAPI';
 
 let rowTypesToBoxes = {
   1: 3,
