@@ -4,8 +4,7 @@ import React from 'react';
 
 import Row from '../molecules/Row'
 
-let structure = [0, 1, 2, 3, 4, 5, 6, 7];
-let boxes = [{
+let structure = [{
     name: 0
   }, {
     name: 1
@@ -21,8 +20,7 @@ let boxes = [{
     name: 6
   }, {
     name: 7
-  }
-];
+  }];
 
 let rowTypesToBoxes = {
   1: 3,
@@ -32,7 +30,7 @@ let rowTypesToBoxes = {
 
 const App = React.createClass({
   render() {
-    let rows = this.renderRows(structure);
+    let rows = this.renderRows(this.setBoxModifiers(this.formBoxGroups(structure)));
 
     return (
       <div className='App'>
@@ -44,6 +42,7 @@ const App = React.createClass({
   },
 
   renderRows(structure) {
+    console.log('rowsStruct', structure);
     let acc = this.formRow(structure, 1, 0, []);
 
     return acc;
@@ -71,6 +70,52 @@ const App = React.createClass({
     return (
       <Row type={type} boxes={boxes} key={key}/>
     );
+  },
+
+  formBoxGroups(boxes) {
+    let groupedBoxes = [];
+
+    while (boxes.length > 0) {
+      groupedBoxes.push(boxes.splice(0, 4));
+    }
+
+    return groupedBoxes;
+  },
+
+  setBoxModifiers(boxGroups) {
+    let flattenBoxes = [];
+
+    for (let i = 0; i < boxGroups.length; i++) {
+      let group = boxGroups[i];
+
+      flattenBoxes = flattenBoxes.concat(group.map(function(box, j) {
+        let num = j + 1;
+
+        box.modifiers = [];
+
+        if (num % 2 === 0) {
+          box.modifiers.push('bg-2');
+        }
+
+        if (num % 3 === 0) {
+          box.modifiers.push('bg-3');
+        }
+
+        if (num % 4 === 0) {
+          box.modifiers.push('bg-4');
+        }
+
+        if (i === boxGroups.length - 1 && num === group.length) {
+          box.modifiers.push('last');
+        }
+
+        return box;
+      }));
+    }
+
+    console.log('flattenBoxes', flattenBoxes, boxGroups);
+
+    return flattenBoxes;
   }
 });
 

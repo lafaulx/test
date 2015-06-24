@@ -28,7 +28,7 @@ const Row = React.createClass({
 
   renderBox(rowIndex, neighbours) {
     return (
-      <Box localIndex={rowIndex} neighbours={neighbours} key={neighbours[rowIndex]}/>
+      <Box localIndex={rowIndex} neighbours={neighbours} key={neighbours[rowIndex].name}/>
     );
   }
 });

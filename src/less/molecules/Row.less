@@ -1,4 +1,31 @@
 .Row {
   display: flex;
   margin-bottom: 10px;
+  justify-content: flex-start;
+}
+
+.Row--1 {
+  .Box {
+    width: 30%;
+    margin-right: 5%;
+  }
+}
+
+.Row--2 {
+  .Box {
+    width: 45%;
+    margin-right: 10%;
+  }
+}
+
+.Row--1, .Row--2 {
+  .Box:last-of-type {
+    margin-right: 0;
+  }
+}
+
+.Row--3 {
+  .Box {
+    width: 100%;
+  }
 }

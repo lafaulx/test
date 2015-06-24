@@ -1,15 +1,25 @@
 .Box {
   display: flex;
   flex-direction: column;
-  flex: 1 1;
   border: solid 1px black;
-  margin-right: 5px;
   height: 80px;
   padding: 0 10px;
+}
 
-  &:last-of-type {
-    margin-right: 0;
-  }
+.Box--bg-2 {
+  background-color: red;
+}
+
+.Box--bg-3 {
+  background-color: green;
+}
+
+.Box--bg-4 {
+  background-color: blue;
+}
+
+.Box--last {
+  border-color: white;
 }
 
 .Box-header, .Box-content {
