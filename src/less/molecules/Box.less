@@ -18,3 +18,33 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.Box-closeButton {
+  display: inline-block;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  transform: rotateZ(45deg);
+
+  &:before, &:after {
+    position: absolute;
+    background-color: black;
+    content: "";
+  }
+
+  &:before {
+    width: 2px;
+    height: 10px;
+    left: 50%;
+    top: 0;
+    margin-left: -1px;
+  }
+
+  &:after {
+    width: 10px;
+    height: 2px;
+    left: 0;
+    top: 50%;
+    margin-top: -1px;
+  }
+}
