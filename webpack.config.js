@@ -3,7 +3,7 @@ var autoprefixer = require('autoprefixer-core');
 module.exports = {
   entry: './src/js/index.jsx',
   output: {
-    path: './public/js',
+    path: require('path').resolve('./public/assets/js'),
     filename: 'index.js'
   },
   resolve: {

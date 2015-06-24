@@ -1,8 +1,8 @@
 'use strict';
 
-require('../less/base');
+require('../less/index');
 
 import React from 'react';
-import App from './organisms/App');
+import App from './organisms/App';
 
 React.render(<App />, document.body);
