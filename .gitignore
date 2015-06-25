@@ -4,6 +4,5 @@ pids
 *.pid
 *.seed
 node_modules
-local_config.js
 public/assets/js/*
 .DS_Store

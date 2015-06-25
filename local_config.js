@@ -1,5 +1,5 @@
-var NODEJS_ADDR = process.env.NODEJS_ADDR || 'localhost';
-var NODEJS_PORT = process.env.NODEJS_PORT || 3000
+var NODEJS_ADDR = 'localhost';
+var NODEJS_PORT = 3000
 
 module.exports = {
   NODEJS_ADDR: NODEJS_ADDR,
