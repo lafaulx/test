@@ -3,6 +3,7 @@
 import React from 'react';
 
 import Row from '../molecules/Row';
+import Stats from '../molecules/Stats';
 import AppAPI from '../api/AppAPI';
 
 let rowTypesToBoxes = {
@@ -11,15 +12,32 @@ let rowTypesToBoxes = {
   3: 1
 };
 
+let ActionMessages = {
+  'DELETE': function(id) {
+    return `Box ${id} is being deleted`;
+  },
+  'CREATE': function(id) {
+    return `New box is being appended after ${id}`;
+  }
+}
+
 const App = React.createClass({
   propTypes: {
     structure: React.PropTypes.array.isRequired
   },
 
   getInitialState() {
+    let structure = this.props.structure || [];
+    let totalCount = structure.length;
+
     return {
       boxHover: false,
-      structure: this.props.structure || []
+      structure: structure,
+      totalCount: totalCount,
+      deletedCount: 0,
+      actionInProgress: false,
+      actionMessage: '',
+      lightness: 5
     }
   },
 
@@ -27,10 +45,18 @@ const App = React.createClass({
     let rows = this.renderRows(this.setBoxModifiers(this.formBoxGroups(this.state.structure.slice(0))));
 
     return (
-      <div className={`App ${this.state.boxHover ? 'App--boxHover' : ''}`}>
-        <div className={`Container2 ${this.state.boxHover ? 'Container2--boxHover' : ''}`}>
-          {rows}
+      <div className='App'>
+        <div className={`Container1 ${this.state.boxHover ? 'Container1--boxHover' : ''}`}>
+          <div className={`Container2 Container2--lighten-${this.state.lightness} ${this.state.boxHover ? 'Container2--boxHover' : ''}`}>
+            <div>
+              {rows}
+            </div>
+            <div className={`Overlay ${this.state.actionInProgress ? 'Overlay--show' : ''}`}>
+              <strong>{this.state.actionMessage}</strong>
+            </div>
+          </div>
         </div>
+        <Stats totalCount={this.state.totalCount} deletedCount={this.state.deletedCount} />
       </div>
     );
   },
@@ -134,10 +160,31 @@ const App = React.createClass({
     for (var i = 0; i < structureCopy.length; i++) {
       if (structureCopy[i].name === id) {
         structureCopy.splice(i, 1);
+
+        this.setState({
+          actionInProgress: true,
+          actionMessage: ActionMessages.DELETE(id)
+        });
+
         AppAPI.updateStructure(structureCopy).then(function() {
+          let lightness = self.state.lightness;
+
+          if (lightness < 10) {
+            lightness++;
+          }
+
           self.setState({
-            structure: structureCopy
+            structure: structureCopy,
+            totalCount: structureCopy.length,
+            deletedCount: ++self.state.deletedCount,
+            lightness: lightness
           });
+
+          setTimeout(function() {
+            self.setState({
+              actionInProgress: false
+            });
+          }, 1000);
         });
 
         break;
@@ -148,10 +195,29 @@ const App = React.createClass({
   handleBoxClick(event, id) {
     let self = this;
 
+    this.setState({
+      actionInProgress: true,
+      actionMessage: ActionMessages.CREATE(id)
+    });
+
     AppAPI.createBox(id).then(function(structure) {
+      let lightness = self.state.lightness;
+
+      if (lightness > 0) {
+        lightness--;
+      }
+
       self.setState({
-        structure: structure
+        structure: structure,
+        totalCount: structure.length,
+        lightness: lightness
       });
+
+      setTimeout(function() {
+        self.setState({
+          actionInProgress: false
+        });
+      }, 1000);
     });
   }
 });

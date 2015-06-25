@@ -1,10 +1,16 @@
 .App {
+  display: flex;
+}
+
+.Container1 {
+  flex: 1 0;
   max-width: 960px;
   background-image: url('/assets/img/bg.jpg');
   padding: 50px;
   border: solid 1px black;
+  position: relative;
 
-  &.App--boxHover {
+  &.Container1--boxHover {
     padding: 41px;
     border-width: 10px;
   }
@@ -12,7 +18,6 @@
 
 .Container2 {
   max-width: 860px;
-  background-color: grey;
   padding: 25px;
   display: flex;
   flex-direction: column;
@@ -21,5 +26,50 @@
   &.Container2--boxHover {
     padding: 11px;
     border-width: 15px;
+  }
+}
+
+.Container2-lighten(@n, @i: 0) when (@i =< @n) {
+  .Container2--lighten-@{i} {
+    background-color: lighten(hsl(0, 0, 0), @i * 10%);
+  }
+  .Container2-lighten(@n, (@i + 1));
+}
+
+.Container2-lighten(10);
+
+.Overlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.3);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  display: none;
+  color: white;
+
+  strong {
+    font-size: 30px;
+  }
+}
+
+.Overlay--show {
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .App {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .Container1 {
+    padding: 50px 20px;
+
+    &.Container1--boxHover {
+      padding: 41px 11px;
+    }
   }
 }

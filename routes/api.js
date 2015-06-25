@@ -34,7 +34,9 @@ router.get('/structure', function(req, res) {
 });
 
 router.put('/structure', function(req, res) {
-  structure = req.body.structure;
+  structure = req.body.structure.map(function(box) {
+    return box.name;
+  });
 
   res.sendStatus(200);
 });
