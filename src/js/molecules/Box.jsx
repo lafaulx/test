@@ -73,7 +73,6 @@ const Box = React.createClass({
   },
 
   handleClick(event) {
-    console.log(this.props);
     this.props.onClick(event, this.props.model.name);
   },
 
@@ -81,7 +80,6 @@ const Box = React.createClass({
     event.preventDefault();
     event.stopPropagation();
 
-    console.log(this.props);
     this.props.onDelete(event, this.props.model.name);
   }
 });
